@@ -1,0 +1,31 @@
+<h1> My Expenses </h1>
+
+<h3> My expenses: ${{ total }}</h3>
+
+<a href="{% url 'add_expense' %}">Add Expense</a>
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+    {% for expense in expenses %}
+    <tr>
+        <td>{{ expense.title }}</td>
+        <td>{{ expense.category }}</td>
+        <td>${{ expense.amount }}</td>
+        <td>{{ expense.date }}</td>
+        <td>
+            <a href="{% url 'edit_expense' expense.id %}">Edit</a>
+            <a href="{% url 'delete_expense' expense.id %}">Delete</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No expenses found</td>
+    </tr>
+    {% endfor %}
+    
+</table>

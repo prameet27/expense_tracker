@@ -1,0 +1,12 @@
+<h1>LOgin</h1>
+
+{% if form.errors %}
+<p style="color: red"> Your username and password didn`t match</p>
+{% endif %}
+
+<form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Log In</button>
+    <input type="hidden" name="next" value="{{ next }}" />
+</form>

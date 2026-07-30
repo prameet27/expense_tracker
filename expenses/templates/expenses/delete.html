@@ -1,0 +1,22 @@
+<h1>Delete Expense</h1>
+
+<p> 
+    Are you sure you want to delete?
+
+    <strong>
+        {{ expense.title }}
+    </strong>
+    for
+    <strong>
+        ${{ expense.amount }}
+    </strong>
+    ?
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">
+            Yes, Delete
+        </button>
+    </form>
+
+    <a href="{% url 'expense_list' %}">Cancel </a>
+</p>
