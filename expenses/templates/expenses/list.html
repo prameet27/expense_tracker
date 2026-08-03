@@ -1,13 +1,39 @@
-<h1> My Expenses </h1>
+{% extends "base.html" %}
+{% block title %}My Expenses{% endblock %}
+{% block content %}
 
-<h3> My expenses: ${{ total }}</h3>
+<h1>My Expenses</h1>
+<h3>Total: ${{ total }}</h3>
 
-<a href="{% url 'add_expense' %}">Add Expense</a>
-<table border="1">
+<form method="GET" class="filter-form">
+    <label for="month">Month:</label>
+    <select name="month" id="month">
+        <option value="">-- All Months --</option>
+        {% for m_num, m_name in months %}
+            <option value="{{ m_num }}" {% if m_num == selected_month %}selected{% endif %}>{{ m_name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="year">Year:</label>
+    <select name="year" id="year">
+        <option value="">-- All Years --</option>
+        {% for y in years %}
+            <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Filter</button>
+    {% if selected_month or selected_year %}
+        <a href="{% url 'expense_list' %}">Clear</a>
+    {% endif %}
+</form>
+
+<table>
     <tr>
         <th>Title</th>
         <th>Category</th>
         <th>Amount</th>
+        <th>Month</th>
         <th>Date</th>
         <th>Actions</th>
     </tr>
@@ -16,6 +42,7 @@
         <td>{{ expense.title }}</td>
         <td>{{ expense.category }}</td>
         <td>${{ expense.amount }}</td>
+        <td>{{ expense.date|date:"F Y" }}</td>
         <td>{{ expense.date }}</td>
         <td>
             <a href="{% url 'edit_expense' expense.id %}">Edit</a>
@@ -24,8 +51,27 @@
     </tr>
     {% empty %}
     <tr>
-        <td colspan="5">No expenses found</td>
+        <td colspan="6">No expenses found</td>
     </tr>
     {% endfor %}
-    
 </table>
+
+<h3>Monthly Totals (calculated automatically)</h3>
+<table>
+    <tr>
+        <th>Month</th>
+        <th>Total</th>
+    </tr>
+    {% for item in monthly_summary %}
+    <tr>
+        <td>{{ item.month|date:"F Y" }}</td>
+        <td>${{ item.total }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="2">No expenses yet</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

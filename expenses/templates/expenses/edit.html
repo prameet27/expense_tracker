@@ -1,10 +1,15 @@
-<h1> Edit Expenses </h1>
+{% extends "base.html" %}
+{% block title %}Edit Expense{% endblock %}
+{% block content %}
+
+<h1>Edit Expense</h1>
 
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Update Expense</button>
-
 </form>
 
 <a href="{% url 'expense_list' %}">Cancel</a>
+
+{% endblock %}

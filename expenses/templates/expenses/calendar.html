@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Expense History{% endblock %}
+{% block content %}
+
+<h1>Expense History</h1>
+
+<form method="GET" class="filter-form" style="margin-bottom:16px;">
+    <label for="month">Month:</label>
+    <select name="month" id="month">
+        {% for m_num, m_name in months %}
+            <option value="{{ m_num }}" {% if m_num == month %}selected{% endif %}>{{ m_name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="year">Year:</label>
+    <select name="year" id="year">
+        {% for y in years %}
+            <option value="{{ y }}" {% if y == year %}selected{% endif %}>{{ y }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Go</button>
+</form>
+
+<div class="cal-nav">
+    <a href="?month={{ prev_month }}&year={{ prev_year }}">&laquo; Prev</a>
+    <h2>{{ month_name }} {{ year }}</h2>
+    <a href="?month={{ next_month }}&year={{ next_year }}">Next &raquo;</a>
+</div>
+
+<p class="cal-month-total">Total for {{ month_name }} {{ year }}: <strong>${{ month_total }}</strong></p>
+
+<table class="calendar-table">
+    <tr>
+        <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+    </tr>
+    {% for week in weeks %}
+    <tr>
+        {% for cell in week %}
+            {% if cell %}
+                <td class="cal-day {% if cell.is_today %}today{% endif %}">
+                    <div class="day-num">{{ cell.day }}</div>
+                    {% if cell.total %}
+                        <div class="day-total">${{ cell.total }}</div>
+                        {% for item in cell.items %}
+                            <div class="day-item">{{ item.title }} - ${{ item.amount }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </td>
+            {% else %}
+                <td class="cal-day empty"></td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

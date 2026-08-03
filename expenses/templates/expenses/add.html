@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Add Expense{% endblock %}
+{% block content %}
+
 <h1>Add Expense</h1>
 
 <form method="POST" action="{% url 'add_expense' %}">
@@ -5,3 +9,5 @@
     {{ form.as_p }}
     <button type="submit">Save</button>
 </form>
+
+{% endblock %}
