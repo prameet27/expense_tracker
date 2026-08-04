@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %} Notifications {% endblock %}
+{% block content %}
+
+<style>
+    .notif-list{
+        list-style: none;
+        padding: 0;
+        max-width: 640px;
+    }
+
+    .notif-item{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 12px 14px;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .notif-item.notif-unread{
+        border-left: 4px solid #1abc9c;
+        background: #f4fefb;
+    }
+
+    .notif-verb{
+        color: #fff;
+        font-size: 11px;
+        font-weight: bold;
+        border-radius: 10px;
+        padding: 3px 8px;
+        flex-shrink: 0;
+    }
+
+    .notif-created{ background: #1e8449; }
+    .notif-updated{ background: #d68910; }
+    .notif-deleted{ background: #c0392b; }
+    .notif-text {
+        flex: 1;
+    }
+    
+    .notif-time{
+        color: #999;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+</style>
+<h1> Notifications </h1>
+
+{% if notifications %}
+    <ul class="notif-list">
+        {% for n in notifications %}
+            <li class="notif-item {% if not n.is_read %} notif-unread {% endif %}">
+                <span class="notif-verb notif-{{ n.verb }}">{{ n.verb|upper }}</span>
+                <span class="notif-text">
+                    <strong> {{ n.actor.username|default:"Someone" }} </strong>
+                    {{ n.verb }} an expense 
+                    "<strong> {{ n.expense_title }}</strong>"
+                    (${{ n.amount|floatformat:2 }})
+                </span>
+                <span class="notif-time">{{ n.created_at|date:"M j, Y g:i A" }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="no-data">No Notifications yet.</p>
+
+
+{% endif %}
+{% endblock %}
