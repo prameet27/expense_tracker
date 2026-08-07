@@ -1,11 +1,12 @@
 import calendar
 import json
-import bisect
 from datetime import date
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ExpenseForm
 from .models import Expenses, Notification
 from .notifications import notify_other_users
+from .classification import LEVEL_COLORS, CATEGORY_COLORS, classify_level
+from .nepali_date import to_bs_string, bs_month_range_label
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
 from django.contrib.auth.decorators import login_required
@@ -15,32 +16,6 @@ MONTH_CHOICES=[
     (1, "Janauary"), (2, "Febraury"), (3, "March"), (4, "April"), (5, "May"), (6, "June"),
     (7, "July"), (8, "August"), (9, "September"), (10, "October"), (11, "November"), (12, "December"),
 ]
-
-LEVEL_COLORS = {
-    "high": "#c0392b",
-    "medium": "#d68910",
-    "low": "#1e8449",
-}
-
-CATEGORY_COLORS = [
-    "#3498db", "#e67e22", "#9b59b6", "#1abc9c", "#e74c3c", "#2ecc71", "#f1c40f", "#34495e", "#16a085", "#d35400",
-]
-
-
-def classify_level(value, sorted_values):
-    n = len(sorted_values)
-    if n <= 1:
-        return "medium"
-    lo = bisect.bisect_left(sorted_values, value)
-    hi = bisect.bisect_right(sorted_values, value)
-    rank = (lo + hi) / 2
-    pct = rank / n
-    if pct >= 2/3:
-        return "high"
-    elif pct >= 1/3:
-        return " medium"
-    else: 
-        return "low"
     
 @login_required
 def expense_list(request):
@@ -135,6 +110,7 @@ def expense_calendar(request):
                     "total": info["total"],
                     "items": info["items"],
                     "is_today": (year, month, day) == (today.year, today.month, today.day),
+                    "bs_label": to_bs_string(date(year, month, day), "%d %B"),
                 })
         weeks.append(week_cells)
 
@@ -213,6 +189,10 @@ def expense_summary(request):
         bar_colors = [LEVEL_COLORS["medium"]] * days_in_month
         bar_view = "daily"
         period_label = f"{calendar.month_name[selected_month]} {selected_year}"
+        bs_period_label = bs_month_range_label(
+            date(selected_year, selected_month, 1),
+            date(selected_year, selected_month, days_in_month),
+        )
     else:
         month_totals = {m:0.0 for m in range(1, 13)}
         for row in year_expenses.annotate(month = TruncMonth('date')).values('month').annotate(total=Sum('amount')):
@@ -239,6 +219,10 @@ def expense_summary(request):
         pie_values = [float(c['total']) for c in category_qs]
         bar_view = "monthly"
         period_label = str(selected_year)
+        bs_period_label = bs_month_range_label(
+            date(selected_year, 1, 1),
+            date(selected_year, 12, 31),
+        )
 
     pie_colors = [CATEGORY_COLORS[i % len(CATEGORY_COLORS)] for i in range(len(pie_labels))]
 
@@ -248,6 +232,7 @@ def expense_summary(request):
         "selected_year": selected_year,
         "selected_month": selected_month,
         "period_label": period_label,
+        "bs_period_label": bs_period_label,
         "month_total": month_total,
         "level": level,
         "level_colors":LEVEL_COLORS.get(level, "#7f8c8d"),

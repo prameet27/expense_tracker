@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load nepali_filters %}
 {% block title %} Notifications {% endblock %}
 {% block content %}
 
@@ -47,6 +48,10 @@
         font-size: 12px;
         white-space: nowrap;
     }
+    .notif-bs{
+        color: #999;
+        font-size: 12px;
+    }
 </style>
 <h1> Notifications </h1>
 
@@ -54,13 +59,27 @@
     <ul class="notif-list">
         {% for n in notifications %}
             <li class="notif-item {% if not n.is_read %} notif-unread {% endif %}">
-                <span class="notif-verb notif-{{ n.verb }}">{{ n.verb|upper }}</span>
-                <span class="notif-text">
-                    <strong> {{ n.actor.username|default:"Someone" }} </strong>
-                    {{ n.verb }} an expense 
-                    "<strong> {{ n.expense_title }}</strong>"
-                    (${{ n.amount|floatformat:2 }})
-                </span>
+                {% if n.verb == "summary" %}
+                    <span class="notif-verb" style="background: {{ n.level|default:'medium'}};">{{ n.level|default:"medium"|upper }}</span>
+                    <span class="notif-text">
+                        Your total expense for <strong>{{ n.expense_title|slice:"18:" }}</strong> was <strong>${{ n.amount|floatformat:2 }}</strong>
+                        &mdash; {{ n.level|upper }} spending.
+                        {% bs_month_range n.year n.month as bs_range %}
+                        {% if bs_range %}
+                            <br><span class="notif-bs">{{ bs_range }}</span>
+                        {% endif %}
+                        {% if n.pdf_file %}
+                            <a href="{{ n.pdf_file.url }}" target="_blank">Download PDF Report</a>
+                        {% endif %}
+                    </span>
+                {% else %}
+                    <span class="notif-verb notif-{{ n.verb }}">{{ n.verb|upper }}</span>
+                    <span class="notif-text">
+                        <strong> {{ n.actor.username|default:"Someone" }} </strong>
+                        {{ n.verb }} an expense 
+                        "<strong> {{ n.expense_title }}</strong>" (${{ n.amount|floatformat:2 }})
+                    </span>
+                {% endif %}
                 <span class="notif-time">{{ n.created_at|date:"M j, Y g:i A" }}</span>
             </li>
         {% endfor %}

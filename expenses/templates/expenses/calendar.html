@@ -40,6 +40,7 @@
             {% if cell %}
                 <td class="cal-day {% if cell.is_today %}today{% endif %}">
                     <div class="day-num">{{ cell.day }}</div>
+                    <div class="day-bs">{{ cell.bs_label }} BS</div>
                     {% if cell.total %}
                         <div class="day-total">${{ cell.total }}</div>
                         {% for item in cell.items %}

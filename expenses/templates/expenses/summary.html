@@ -27,6 +27,9 @@
     <div class="summary-total">
         <span class="summary-label">Total for {{ period_label }}</span>
         <span class="summary-amount">${{ month_total|floatformat:2 }}</span>
+        {% if bs_period_label %}
+            <span class="summary-bs">{{ bs_period_label }}</span>
+        {% endif %}
     </div>
 
     {% if level %}
@@ -141,6 +144,12 @@
         font-weight: bold;
         color: #2c3e50;
     }
+    
+    .summary-bs{
+        font-size: 12px;
+        color: #888;
+    }
+
     .level-badge{
         color: #fff;
         font-weight: bold;
