@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -109,6 +111,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+LANGUAGES = [
+    ('en', 'English'),
+    ('ne', 'नेपाली'),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -123,6 +134,25 @@ STATIC_URL = 'static/'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Email (used for birthday/anniversary reminder emails).
+# Credentials are read from environment variables - NEVER hardcode a real
+# password here, since this file is easy to accidentally commit/share.
+#
+# For Gmail: you need an "App Password", not your normal login password.
+# Generate one at https://myaccount.google.com/apppasswords (requires
+# 2-Step Verification to be enabled on the Google account first).
+#
+# Then, before running the server, set:
+#   export EMAIL_HOST_USER="youraddress@gmail.com"
+#   export EMAIL_HOST_PASSWORD="your16charapppassword"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'pramit.acharya27@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'ogtv tcfg rhjn borq')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

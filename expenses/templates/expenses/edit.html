@@ -1,15 +1,18 @@
 {% extends "base.html" %}
-{% block title %}Edit Expense{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Edit Expense" %}{% endblock %}
 {% block content %}
 
-<h1>Edit Expense</h1>
+<h1>{% trans "Edit Expense" %}</h1>
+
+{% include "expenses/_translator_widget.html" %}
 
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Update Expense</button>
+    <button type="submit">{% trans "Update Expense" %}</button>
 </form>
 
-<a href="{% url 'expense_list' %}">Cancel</a>
+<a href="{% url 'expense_list' %}">{% trans "Cancel" %}</a>
 
 {% endblock %}

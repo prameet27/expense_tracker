@@ -1,0 +1,71 @@
+<div class="translator-box">
+    <h4>Translator</h4>
+    <select id="translate-direction">
+        <option value="en_to_ne">English &rarr; Nepali</option>
+        <option value="ne_to_en">Nepali &rarr; English</option>
+    </select>
+    <textarea id="translate-input" rows="2" placeholder="Type text to translate..."></textarea>
+    <button type="button" id="translate-btn">Translate</button>
+    <div id="translate-error" class="translate-error"></div>
+    <textarea id="translate-output" rows="2" readonly placeholder="Translation will appear here"></textarea>
+    <div class="translate-actions">
+        <button type="button" id="insert-title-btn">Insert into Title</button>
+        <button type="button" id="insert-description-btn">Insert into Description</button>
+    </div>
+</div>
+
+<script>
+(function() {
+    const btn = document.getElementById('translate-btn');
+    const input = document.getElementById('translate-input');
+    const output = document.getElementById('translate-output');
+    const direction = document.getElementById('translate-direction');
+    const errorBox = document.getElementById('translate-error');
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    btn.addEventListener('click', async function() {
+        const text = input.value.trim();
+        errorBox.textContent = '';
+        output.value = '';
+        if (!text) return;
+
+        btn.disabled = true;
+        btn.textContent = 'Translating...';
+        try {
+            const resp = await fetch("{% url 'translate_text' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                body: new URLSearchParams({text: text, direction: direction.value}),
+            });
+            const data = await resp.json();
+            if (data.error) {
+                errorBox.textContent = data.error;
+            } else {
+                output.value = data.translated;
+            }
+        } catch (e) {
+            errorBox.textContent = 'Could not reach the translator. Check your connection.';
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Translate';
+        }
+    });
+
+    document.getElementById('insert-title-btn').addEventListener('click', function() {
+        const titleField = document.getElementById('id_title');
+        if (titleField && output.value) titleField.value = output.value;
+    });
+    document.getElementById('insert-description-btn').addEventListener('click', function() {
+        const descField = document.getElementById('id_description');
+        if (descField && output.value) descField.value = output.value;
+    });
+})();
+</script>

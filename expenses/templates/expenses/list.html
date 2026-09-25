@@ -1,43 +1,45 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load nepali_filters %}
-{% block title %}My Expenses{% endblock %}
+{% block title %}{% trans "All Expenses" %}{% endblock %}
 {% block content %}
 
-<h1>My Expenses</h1>
-<h3>Total: ${{ total }}</h3>
+<h1>{% trans "All Expenses" %}</h1>
+<h3>{% trans "Total" %}: ${{ total }}</h3>
 
 <form method="GET" class="filter-form">
-    <label for="month">Month:</label>
+    <label for="month">{% trans "Month" %}:</label>
     <select name="month" id="month">
-        <option value="">-- All Months --</option>
+        <option value="">-- {% trans "All Months" %} --</option>
         {% for m_num, m_name in months %}
             <option value="{{ m_num }}" {% if m_num == selected_month %}selected{% endif %}>{{ m_name }}</option>
         {% endfor %}
     </select>
 
-    <label for="year">Year:</label>
+    <label for="year">{% trans "Year" %}:</label>
     <select name="year" id="year">
-        <option value="">-- All Years --</option>
+        <option value="">-- {% trans "All Years" %} --</option>
         {% for y in years %}
             <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
         {% endfor %}
     </select>
 
-    <button type="submit">Filter</button>
+    <button type="submit">{% trans "Filter" %}</button>
     {% if selected_month or selected_year %}
-        <a href="{% url 'expense_list' %}">Clear</a>
+        <a href="{% url 'expense_list' %}">{% trans "Clear" %}</a>
     {% endif %}
 </form>
 
 <table>
     <tr>
-        <th>Title</th>
-        <th>Category</th>
-        <th>Amount</th>
-        <th>Month</th>
-        <th>Date</th>
-        <th>Nepali Date</th>
-        <th>Actions</th>
+        <th>{% trans "Title" %}</th>
+        <th>{% trans "Category" %}</th>
+        <th>{% trans "Amount" %}</th>
+        <th>{% trans "Month" %}</th>
+        <th>{% trans "Date" %}</th>
+        <th>{% trans "Nepali Date" %}</th>
+        <th>{% trans "Added By" %}</th>
+        <th>{% trans "Actions" %}</th>
     </tr>
     {% for expense in expenses %}
     <tr>
@@ -47,23 +49,28 @@
         <td>{{ expense.date|date:"F Y" }}</td>
         <td>{{ expense.date }}</td>
         <td>{{ expense.date|bs_date }}</td>
+        <td>{{ expense.user.username }}</td>
         <td>
-            <a href="{% url 'edit_expense' expense.id %}">Edit</a>
-            <a href="{% url 'delete_expense' expense.id %}">Delete</a>
+            {% if expense.user == request.user %}
+                <a href="{% url 'edit_expense' expense.id %}">{% trans "Edit" %}</a>
+                <a href="{% url 'delete_expense' expense.id %}">{% trans "Delete" %}</a>
+            {% else %}
+                <span class="no-data">&mdash;</span>
+            {% endif %}
         </td>
     </tr>
     {% empty %}
     <tr>
-        <td colspan="7">No expenses found</td>
+        <td colspan="8">{% trans "No expenses found" %}</td>
     </tr>
     {% endfor %}
 </table>
 
-<h3>Monthly Totals (calculated automatically)</h3>
+<h3>{% trans "Monthly Totals (calculated automatically)" %}</h3>
 <table>
     <tr>
-        <th>Month</th>
-        <th>Total</th>
+        <th>{% trans "Month" %}</th>
+        <th>{% trans "Total" %}</th>
     </tr>
     {% for item in monthly_summary %}
     <tr>
@@ -72,7 +79,7 @@
     </tr>
     {% empty %}
     <tr>
-        <td colspan="2">No expenses yet</td>
+        <td colspan="2">{% trans "No expenses yet" %}</td>
     </tr>
     {% endfor %}
 </table>

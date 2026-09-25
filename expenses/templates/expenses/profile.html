@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "My Profile" %}{% endblock %}
+{% block content %}
+
+<h1>{% trans "My Profile" %}</h1>
+
+<p>{% trans "Your email address is used to send you birthday, anniversary, and other reminders." %}</p>
+
+<form method="POST" style="max-width: 400px;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% trans "Save" %}</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Reminders" %}{% endblock %}
+{% block content %}
+
+<h1>{% trans "Reminders" %}</h1>
+
+<p><a href="{% url 'add_reminder' %}">+ {% trans "Add Reminder" %}</a></p>
+
+<table>
+    <tr>
+        <th>{% trans "Person" %}</th>
+        <th>{% trans "Type" %}</th>
+        <th>{% trans "Email" %}</th>
+        <th>{% trans "Next Occurrence" %}</th>
+        <th>{% trans "Days Until" %}</th>
+        <th>{% trans "Notes" %}</th>
+        <th>{% trans "Added By" %}</th>
+        <th>{% trans "Actions" %}</th>
+    </tr>
+    {% for reminder in reminders %}
+    <tr>
+        <td>{{ reminder.person_name }}</td>
+        <td>{{ reminder.get_reminder_type_display }}</td>
+        <td>{{ reminder.email|default:"—" }}</td>
+        <td>{{ reminder.next_date|date:"F j, Y" }}</td>
+        <td>
+            {% if reminder.days_until == 0 %}
+                <strong>{% trans "Today!" %}</strong>
+            {% else %}
+                {{ reminder.days_until }} {% trans "days" %}
+            {% endif %}
+        </td>
+        <td>{{ reminder.notes|default:"—" }}</td>
+        <td>{{ reminder.created_by.username }}</td>
+        <td>
+            <button type="button" onclick="document.getElementById('wish-modal-{{ reminder.id }}').showModal()">
+                {% trans "Send Wish" %}
+            </button>
+            {% if reminder.created_by == request.user %}
+                <a href="{% url 'edit_reminder' reminder.id %}">{% trans "Edit" %}</a>
+                <a href="{% url 'delete_reminder' reminder.id %}">{% trans "Delete" %}</a>
+            {% endif %}
+        </td>
+    </tr>
+
+    <dialog id="wish-modal-{{ reminder.id }}" class="wish-modal" {% if reminder.due_slots %}data-auto-open="1"{% endif %}>
+        <form method="POST" action="{% url 'send_wish' reminder.id %}">
+            {% csrf_token %}
+            <h2>{% trans "Compose Wish" %} — {{ reminder.person_name }}</h2>
+            {% if reminder.due_slots %}
+                <p class="due-banner">🎉 {% trans "This reminder is due today!" %}</p>
+            {% endif %}
+            <label>
+                {% trans "From" %}
+                <input type="email" value="{{ request.user.email }}" readonly>
+            </label>
+            <label>
+                {% trans "To" %}
+                <input type="email" name="to_email" value="{{ reminder.email }}"
+                       placeholder="{% trans 'Any email — app user or not' %}" required>
+            </label>
+            <label>
+                {% trans "Subject" %}
+                <input type="text" name="subject" value="{{ reminder.default_subject }}" required>
+            </label>
+            <label>
+                {% trans "Message" %}
+                <textarea name="message" rows="6" required>{{ reminder.default_message }}</textarea>
+            </label>
+            <div class="wish-modal-actions">
+                <button type="button" onclick="document.getElementById('wish-modal-{{ reminder.id }}').close()">
+                    {% trans "Cancel" %}
+                </button>
+                <button type="submit">{% trans "Send" %}</button>
+            </div>
+        </form>
+    </dialog>
+
+    {% empty %}
+    <tr>
+        <td colspan="8">{% trans "No reminders yet" %}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<style>
+    .wish-modal { border: none; border-radius: 8px; padding: 20px; width: 420px; max-width: 90vw; }
+    .wish-modal::backdrop { background: rgba(0,0,0,0.45); }
+    .wish-modal label { display: block; margin-bottom: 12px; font-size: 13px; color: #444; }
+    .wish-modal input, .wish-modal textarea {
+        display: block; width: 100%; margin-top: 4px; padding: 8px; box-sizing: border-box;
+        border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 14px;
+    }
+    .wish-modal input[readonly] { background: #f4f5f7; color: #777; }
+    .wish-modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+    .due-banner { background: #fff8e1; color: #8a6d00; padding: 8px 10px; border-radius: 4px; font-size: 13px; }
+</style>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto-open the compose dialog for any reminder whose reminder day is today.
+    document.querySelectorAll('dialog.wish-modal[data-auto-open]').forEach(function (dialog) {
+        if (typeof dialog.showModal === 'function') {
+            dialog.showModal();
+        }
+    });
+</script>
+{% endblock %}

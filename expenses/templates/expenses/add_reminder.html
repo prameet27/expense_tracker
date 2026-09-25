@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Add Reminder" %}{% endblock %}
+{% block content %}
+
+<h1>{% trans "Add Reminder" %}</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% trans "Save" %}</button>
+</form>
+
+<a href="{% url 'reminders_list' %}">{% trans "Cancel" %}</a>
+
+{% endblock %}

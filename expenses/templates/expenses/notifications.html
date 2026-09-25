@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load nepali_filters %}
-{% block title %} Notifications {% endblock %}
+{% block title %}{% trans "Notifications" %}{% endblock %}
 {% block content %}
 
 <style>
@@ -39,6 +40,7 @@
     .notif-created{ background: #1e8449; }
     .notif-updated{ background: #d68910; }
     .notif-deleted{ background: #c0392b; }
+    .notif-reminder{ background: #8e44ad; }
     .notif-text {
         flex: 1;
     }
@@ -53,30 +55,33 @@
         font-size: 12px;
     }
 </style>
-<h1> Notifications </h1>
+<h1>{% trans "Notifications" %}</h1>
 
 {% if notifications %}
     <ul class="notif-list">
         {% for n in notifications %}
             <li class="notif-item {% if not n.is_read %} notif-unread {% endif %}">
                 {% if n.verb == "summary" %}
-                    <span class="notif-verb" style="background: {{ n.level|default:'medium'}};">{{ n.level|default:"medium"|upper }}</span>
+                    <span class="notif-verb badge level-{{ n.level|default:'medium' }}">{{ n.level|default:"medium"|upper }}</span>
                     <span class="notif-text">
-                        Your total expense for <strong>{{ n.expense_title|slice:"18:" }}</strong> was <strong>${{ n.amount|floatformat:2 }}</strong>
-                        &mdash; {{ n.level|upper }} spending.
+                        {% blocktrans with title=n.expense_title|slice:"18:" amount=n.amount|floatformat:2 %}The household's total expense for <strong>{{ title }}</strong> was <strong>${{ amount }}</strong>{% endblocktrans %}
+                        &mdash; {{ n.level|upper }} {% trans "spending" %}.
                         {% bs_month_range n.year n.month as bs_range %}
                         {% if bs_range %}
                             <br><span class="notif-bs">{{ bs_range }}</span>
                         {% endif %}
                         {% if n.pdf_file %}
-                            <a href="{{ n.pdf_file.url }}" target="_blank">Download PDF Report</a>
+                            <a href="{{ n.pdf_file.url }}" target="_blank">{% trans "Download PDF Report" %}</a>
                         {% endif %}
                     </span>
+                {% elif n.verb == "reminder" %}
+                    <span class="notif-verb notif-reminder">{% trans "REMINDER" %}</span>
+                    <span class="notif-text">{{ n.expense_title }}</span>
                 {% else %}
                     <span class="notif-verb notif-{{ n.verb }}">{{ n.verb|upper }}</span>
                     <span class="notif-text">
                         <strong> {{ n.actor.username|default:"Someone" }} </strong>
-                        {{ n.verb }} an expense 
+                        {{ n.verb }} {% trans "an expense" %}
                         "<strong> {{ n.expense_title }}</strong>" (${{ n.amount|floatformat:2 }})
                     </span>
                 {% endif %}
@@ -85,7 +90,7 @@
         {% endfor %}
     </ul>
 {% else %}
-    <p class="no-data">No Notifications yet.</p>
+    <p class="no-data">{% trans "No Notifications yet." %}</p>
 
 
 {% endif %}

@@ -1,31 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Expense Summary{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Expense Summary" %}{% endblock %}
 {% block content %}
 
-<h1>Expense Summary</h1>
+<h1>{% trans "Expense Summary" %}</h1>
 
 <form method="GET" class="filter-form" style="margin-bottom:16px;">
-    <label for="year">Year:</label>
+    <label for="year">{% trans "Year" %}:</label>
     <select name="year" id="year">
         {% for y in years %}
             <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
         {% endfor %}
     </select>
 
-    <label for="month">Month:</label>
+    <label for="month">{% trans "Month" %}:</label>
     <select name="month" id="month">
-        <option value="all" {% if not selected_month %}selected{% endif %}>All months</option>
+        <option value="all" {% if not selected_month %}selected{% endif %}>{% trans "All months" %}</option>
         {% for m_num, m_name in months %}
             <option value="{{ m_num }}" {% if m_num == selected_month %}selected{% endif %}>{{ m_name }}</option>
         {% endfor %}
     </select>
 
-    <button type="submit">Go</button>
+    <button type="submit">{% trans "Go" %}</button>
 </form>
 
 <div class="summary-header">
     <div class="summary-total">
-        <span class="summary-label">Total for {{ period_label }}</span>
+        <span class="summary-label">{% trans "Total for" %} {{ period_label }}</span>
         <span class="summary-amount">${{ month_total|floatformat:2 }}</span>
         {% if bs_period_label %}
             <span class="summary-bs">{{ bs_period_label }}</span>
@@ -34,43 +35,43 @@
 
     {% if level %}
         <div class="level-badge" style="background: {{ level_color }};">
-            {{ level|upper }} SPENDING
+            {{ level|upper }} {% trans "SPENDING" %}
         </div>
     {% else %}
         <div class="level-badge level-badge-unknown">
-            NOT ENOUGH HISTORY YET
+            {% trans "NOT ENOUGH HISTORY YET" %}
         </div>
     {% endif %}
 </div>
 
 {% if avg_monthly %}
-    <p class="summary-avg">Your average monthly spending is <strong>${{ avg_monthly|floatformat:2 }}</strong>. Months are classified as high / medium / low relative to this average.</p>
+    <p class="summary-avg">{% blocktrans with avg=avg_monthly|floatformat:2 %}Your average monthly spending is <strong>${{ avg }}</strong>. Months are classified as high / medium / low relative to this average.{% endblocktrans %}</p>
 {% endif %}
 
 <div class="charts-grid">
     <div class="chart-card">
-        <h3>Spending by Category</h3>
+        <h3>{% trans "Spending by Category" %}</h3>
         {% if has_pie_data %}
             <canvas id="categoryPie"></canvas>
         {% else %}
-            <p class="no-data">No expenses recorded for this period.</p>
+            <p class="no-data">{% trans "No expenses recorded for this period." %}</p>
         {% endif %}
     </div>
 
     <div class="chart-card">
-        <h3>{% if bar_view == "daily" %}Spending by Day{% else %}Spending by Month{% endif %}</h3>
+        <h3>{% if bar_view == "daily" %}{% trans "Spending by Day" %}{% else %}{% trans "Spending by Month" %}{% endif %}</h3>
         {% if has_bar_data %}
             <canvas id="spendBar"></canvas>
         {% else %}
-            <p class="no-data">No expenses recorded for this period.</p>
+            <p class="no-data">{% trans "No expenses recorded for this period." %}</p>
         {% endif %}
     </div>
 </div>
 
 <div class="legend">
-    <span class="legend-item"><span class="dot" style="background:#c0392b;"></span> High</span>
-    <span class="legend-item"><span class="dot" style="background:#d68910;"></span> Medium</span>
-    <span class="legend-item"><span class="dot" style="background:#1e8449;"></span> Low</span>
+    <span class="legend-item"><span class="dot" style="background:#c0392b;"></span> {% trans "High" %}</span>
+    <span class="legend-item"><span class="dot" style="background:#d68910;"></span> {% trans "Medium" %}</span>
+    <span class="legend-item"><span class="dot" style="background:#1e8449;"></span> {% trans "Low" %}</span>
 </div>
 
 {{ pie_labels_json|json_script:"pie-labels" }}

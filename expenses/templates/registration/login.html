@@ -1,12 +1,19 @@
-<h1>LOgin</h1>
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Log In" %}{% endblock %}
+{% block content %}
+
+<h1>{% trans "Log In" %}</h1>
 
 {% if form.errors %}
-<p style="color: red"> Your username and password didn`t match</p>
+<p style="color: red">{% trans "Your username and password didn't match." %}</p>
 {% endif %}
 
 <form method="POST" action="{% url 'login' %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Log In</button>
+    <button type="submit">{% trans "Log In" %}</button>
     <input type="hidden" name="next" value="{{ next }}" />
 </form>
+
+{% endblock %}

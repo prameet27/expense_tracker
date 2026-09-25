@@ -1,0 +1,409 @@
+# Nepali translation for Expense Tracker
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-11 09:24+0000\n"
+"PO-Revision-Date: 2026-08-10 07:09+0000\n"
+"Last-Translator: \n"
+"Language-Team: Nepali\n"
+"Language: ne\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: expenses/templates/base.html:301
+msgid "Expense Tracker"
+msgstr "खर्च ट्र्याकर"
+
+#: expenses/templates/base.html:302
+msgid "Logged in as"
+msgstr "लगइन गरिएको"
+
+#: expenses/templates/base.html:304
+#: expenses/templates/expenses/notifications.html:4
+#: expenses/templates/expenses/notifications.html:58
+msgid "Notifications"
+msgstr "सूचनाहरू"
+
+#: expenses/templates/base.html:309 expenses/templates/expenses/list.html:4
+#: expenses/templates/expenses/list.html:7
+msgid "All Expenses"
+msgstr "सबै खर्चहरू"
+
+#: expenses/templates/base.html:310 expenses/templates/expenses/add.html:3
+#: expenses/templates/expenses/add.html:6
+msgid "Add Expense"
+msgstr "खर्च थप्नुहोस्"
+
+#: expenses/templates/base.html:311
+msgid "Expense Calendar"
+msgstr "खर्च पात्रो"
+
+#: expenses/templates/base.html:312
+msgid "Summary"
+msgstr "सारांश"
+
+#: expenses/templates/base.html:313
+#: expenses/templates/expenses/reminders.html:3
+#: expenses/templates/expenses/reminders.html:6
+msgid "Reminders"
+msgstr "सम्झनाहरू"
+
+#: expenses/templates/base.html:314 expenses/templates/expenses/profile.html:3
+#: expenses/templates/expenses/profile.html:6
+msgid "My Profile"
+msgstr "मेरो प्रोफाइल"
+
+#: expenses/templates/base.html:331
+msgid "Sign Out"
+msgstr "साइन आउट"
+
+#: expenses/templates/expenses/add.html:13
+#: expenses/templates/expenses/add_reminder.html:11
+#: expenses/templates/expenses/profile.html:13
+msgid "Save"
+msgstr "सुरक्षित गर्नुहोस्"
+
+#: expenses/templates/expenses/add_reminder.html:3
+#: expenses/templates/expenses/add_reminder.html:6
+#: expenses/templates/expenses/reminders.html:8
+msgid "Add Reminder"
+msgstr "सम्झना थप्नुहोस्"
+
+#: expenses/templates/expenses/add_reminder.html:14
+#: expenses/templates/expenses/delete.html:18
+#: expenses/templates/expenses/delete_reminder.html:18
+#: expenses/templates/expenses/edit.html:16
+#: expenses/templates/expenses/edit_reminder.html:14
+msgid "Cancel"
+msgstr "रद्द गर्नुहोस्"
+
+#: expenses/templates/expenses/calendar.html:3
+#: expenses/templates/expenses/calendar.html:6
+msgid "Expense History"
+msgstr "खर्च इतिहास"
+
+#: expenses/templates/expenses/calendar.html:9
+#: expenses/templates/expenses/list.html:11
+#: expenses/templates/expenses/list.html:38
+#: expenses/templates/expenses/list.html:72
+#: expenses/templates/expenses/summary.html:16
+msgid "Month"
+msgstr "महिना"
+
+#: expenses/templates/expenses/calendar.html:16
+#: expenses/templates/expenses/list.html:19
+#: expenses/templates/expenses/summary.html:9
+msgid "Year"
+msgstr "साल"
+
+#: expenses/templates/expenses/calendar.html:23
+#: expenses/templates/expenses/summary.html:24
+msgid "Go"
+msgstr "जानुहोस्"
+
+#: expenses/templates/expenses/calendar.html:27
+msgid "Prev"
+msgstr "अघिल्लो"
+
+#: expenses/templates/expenses/calendar.html:29
+msgid "Next"
+msgstr "अर्को"
+
+#: expenses/templates/expenses/calendar.html:32
+#: expenses/templates/expenses/summary.html:29
+msgid "Total for"
+msgstr "जम्मा"
+
+#: expenses/templates/expenses/calendar.html:36
+msgid "Sun"
+msgstr "आइत"
+
+#: expenses/templates/expenses/calendar.html:36
+msgid "Mon"
+msgstr "सोम"
+
+#: expenses/templates/expenses/calendar.html:36
+msgid "Tue"
+msgstr "मंगल"
+
+#: expenses/templates/expenses/calendar.html:36
+msgid "Wed"
+msgstr "बुध"
+
+#: expenses/templates/expenses/calendar.html:36
+msgid "Thu"
+msgstr "बिहि"
+
+#: expenses/templates/expenses/calendar.html:36
+msgid "Fri"
+msgstr "शुक्र"
+
+#: expenses/templates/expenses/calendar.html:36
+msgid "Sat"
+msgstr "शनि"
+
+#: expenses/templates/expenses/delete.html:3
+#: expenses/templates/expenses/delete.html:6
+msgid "Delete Expense"
+msgstr "खर्च मेटाउनुहोस्"
+
+#: expenses/templates/expenses/delete.html:9
+#, python-format
+msgid ""
+"\n"
+"    Are you sure you want to delete <strong>%(title)s</strong> for <strong>$"
+"%(amount)s</strong>?\n"
+"    "
+msgstr ""
+"\n"
+"    के तपाईं <strong>%(title)s</strong> लाई <strong>$%(amount)s</strong> को "
+"लागि मेटाउन निश्चित हुनुहुन्छ?\n"
+"    "
+
+#: expenses/templates/expenses/delete.html:15
+#: expenses/templates/expenses/delete_reminder.html:15
+msgid "Yes, Delete"
+msgstr "हो, मेटाउनुहोस्"
+
+#: expenses/templates/expenses/delete_reminder.html:3
+#: expenses/templates/expenses/delete_reminder.html:6
+msgid "Delete Reminder"
+msgstr "सम्झना मेटाउनुहोस्"
+
+#: expenses/templates/expenses/delete_reminder.html:9
+#, python-format
+msgid ""
+"\n"
+"    Are you sure you want to delete the reminder for <strong>%(name)s</"
+"strong>?\n"
+"    "
+msgstr ""
+"\n"
+"    के तपाईं <strong>%(name)s</strong> को लागि सम्झना मेटाउन निश्चित हुनुहुन्छ?\n"
+"    "
+
+#: expenses/templates/expenses/edit.html:3
+#: expenses/templates/expenses/edit.html:6
+msgid "Edit Expense"
+msgstr "खर्च सम्पादन गर्नुहोस्"
+
+#: expenses/templates/expenses/edit.html:13
+msgid "Update Expense"
+msgstr "खर्च अपडेट गर्नुहोस्"
+
+#: expenses/templates/expenses/edit_reminder.html:3
+#: expenses/templates/expenses/edit_reminder.html:6
+msgid "Edit Reminder"
+msgstr "सम्झना सम्पादन गर्नुहोस्"
+
+#: expenses/templates/expenses/edit_reminder.html:11
+msgid "Update Reminder"
+msgstr "सम्झना अपडेट गर्नुहोस्"
+
+#: expenses/templates/expenses/list.html:8
+#: expenses/templates/expenses/list.html:73
+msgid "Total"
+msgstr "जम्मा"
+
+#: expenses/templates/expenses/list.html:13
+msgid "All Months"
+msgstr "सबै महिना"
+
+#: expenses/templates/expenses/list.html:21
+msgid "All Years"
+msgstr "सबै साल"
+
+#: expenses/templates/expenses/list.html:27
+msgid "Filter"
+msgstr "फिल्टर"
+
+#: expenses/templates/expenses/list.html:29
+msgid "Clear"
+msgstr "खाली गर्नुहोस्"
+
+#: expenses/templates/expenses/list.html:35
+msgid "Title"
+msgstr "शीर्षक"
+
+#: expenses/templates/expenses/list.html:36
+msgid "Category"
+msgstr "श्रेणी"
+
+#: expenses/templates/expenses/list.html:37
+msgid "Amount"
+msgstr "रकम"
+
+#: expenses/templates/expenses/list.html:39
+msgid "Date"
+msgstr "मिति"
+
+#: expenses/templates/expenses/list.html:40
+msgid "Nepali Date"
+msgstr "नेपाली मिति"
+
+#: expenses/templates/expenses/list.html:41
+#: expenses/templates/expenses/reminders.html:17
+msgid "Added By"
+msgstr "थप्ने व्यक्ति"
+
+#: expenses/templates/expenses/list.html:42
+#: expenses/templates/expenses/reminders.html:18
+msgid "Actions"
+msgstr "कार्यहरू"
+
+#: expenses/templates/expenses/list.html:55
+#: expenses/templates/expenses/reminders.html:36
+msgid "Edit"
+msgstr "सम्पादन"
+
+#: expenses/templates/expenses/list.html:56
+#: expenses/templates/expenses/reminders.html:37
+msgid "Delete"
+msgstr "मेटाउनुहोस्"
+
+#: expenses/templates/expenses/list.html:64
+msgid "No expenses found"
+msgstr "कुनै खर्च फेला परेन"
+
+#: expenses/templates/expenses/list.html:69
+msgid "Monthly Totals (calculated automatically)"
+msgstr "मासिक जम्मा (स्वचालित रूपमा गणना गरिएको)"
+
+#: expenses/templates/expenses/list.html:82
+msgid "No expenses yet"
+msgstr "अहिलेसम्म कुनै खर्च छैन"
+
+#: expenses/templates/expenses/notifications.html:67
+#, python-format
+msgid ""
+"The household's total expense for <strong>%(title)s</strong> was <strong>$"
+"%(amount)s</strong>"
+msgstr ""
+"<strong>%(title)s</strong> को लागि घरपरिवारको कुल खर्च <strong>$%(amount)s</"
+"strong> थियो"
+
+#: expenses/templates/expenses/notifications.html:68
+msgid "spending"
+msgstr "खर्च"
+
+#: expenses/templates/expenses/notifications.html:74
+msgid "Download PDF Report"
+msgstr "PDF रिपोर्ट डाउनलोड गर्नुहोस्"
+
+#: expenses/templates/expenses/notifications.html:78
+msgid "REMINDER"
+msgstr "सम्झना"
+
+#: expenses/templates/expenses/notifications.html:84
+msgid "an expense"
+msgstr "एउटा खर्च"
+
+#: expenses/templates/expenses/notifications.html:93
+msgid "No Notifications yet."
+msgstr "अहिलेसम्म कुनै सूचना छैन।"
+
+#: expenses/templates/expenses/profile.html:8
+msgid ""
+"Your email address is used to send you birthday, anniversary, and other "
+"reminders."
+msgstr "तपाईंको इमेल ठेगाना जन्मदिन, वार्षिकोत्सव, र अन्य सम्झनाहरू पठाउन प्रयोग गरिन्छ।"
+
+#: expenses/templates/expenses/reminders.html:12
+msgid "Person"
+msgstr "व्यक्ति"
+
+#: expenses/templates/expenses/reminders.html:13
+msgid "Type"
+msgstr "प्रकार"
+
+#: expenses/templates/expenses/reminders.html:14
+msgid "Next Occurrence"
+msgstr "अर्को पटक"
+
+#: expenses/templates/expenses/reminders.html:15
+msgid "Days Until"
+msgstr "बाँकी दिन"
+
+#: expenses/templates/expenses/reminders.html:16
+msgid "Notes"
+msgstr "टिप्पणी"
+
+#: expenses/templates/expenses/reminders.html:27
+msgid "Today!"
+msgstr "आज!"
+
+#: expenses/templates/expenses/reminders.html:29
+msgid "days"
+msgstr "दिन"
+
+#: expenses/templates/expenses/reminders.html:45
+msgid "No reminders yet"
+msgstr "अहिलेसम्म कुनै सम्झना छैन"
+
+#: expenses/templates/expenses/summary.html:3
+#: expenses/templates/expenses/summary.html:6
+msgid "Expense Summary"
+msgstr "खर्च सारांश"
+
+#: expenses/templates/expenses/summary.html:18
+msgid "All months"
+msgstr "सबै महिना"
+
+#: expenses/templates/expenses/summary.html:38
+msgid "SPENDING"
+msgstr "खर्च"
+
+#: expenses/templates/expenses/summary.html:42
+msgid "NOT ENOUGH HISTORY YET"
+msgstr "पर्याप्त इतिहास छैन"
+
+#: expenses/templates/expenses/summary.html:48
+#, python-format
+msgid ""
+"Your average monthly spending is <strong>$%(avg)s</strong>. Months are "
+"classified as high / medium / low relative to this average."
+msgstr ""
+"तपाईंको औसत मासिक खर्च <strong>$%(avg)s</strong> हो। महिनाहरूलाई यो औसतको "
+"तुलनामा उच्च / मध्यम / न्यूनको रूपमा वर्गीकरण गरिन्छ।"
+
+#: expenses/templates/expenses/summary.html:53
+msgid "Spending by Category"
+msgstr "श्रेणी अनुसार खर्च"
+
+#: expenses/templates/expenses/summary.html:57
+#: expenses/templates/expenses/summary.html:66
+msgid "No expenses recorded for this period."
+msgstr "यस अवधिको लागि कुनै खर्च रेकर्ड गरिएको छैन।"
+
+#: expenses/templates/expenses/summary.html:62
+msgid "Spending by Day"
+msgstr "दिन अनुसार खर्च"
+
+#: expenses/templates/expenses/summary.html:62
+msgid "Spending by Month"
+msgstr "महिना अनुसार खर्च"
+
+#: expenses/templates/expenses/summary.html:72
+msgid "High"
+msgstr "उच्च"
+
+#: expenses/templates/expenses/summary.html:73
+msgid "Medium"
+msgstr "मध्यम"
+
+#: expenses/templates/expenses/summary.html:74
+msgid "Low"
+msgstr "न्यून"
+
+#: expenses/templates/registration/login.html:3
+#: expenses/templates/registration/login.html:6
+#: expenses/templates/registration/login.html:15
+msgid "Log In"
+msgstr "लगइन गर्नुहोस्"
+
+#: expenses/templates/registration/login.html:9
+msgid "Your username and password didn't match."
+msgstr "तपाईंको प्रयोगकर्ता नाम र पासवर्ड मेल खाएन।"

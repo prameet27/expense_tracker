@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        {% load i18n %}
         <title>{% block title %} Expense Tracker {% endblock %}</title>
         <style>
             *{
@@ -80,6 +81,14 @@
                 margin-top: 16px;
                 border-top: 1px solid #3d566e;
                 padding-top: 8px;
+            }
+
+            .lang-switch{
+                padding: 10px 20px 0 20px;
+            }
+            .lang-switch select{
+                width: 100%;
+                padding: 5px;
             }
 
             .main{
@@ -246,33 +255,94 @@
             .chart-box h4{
                 margin: 0 0 12px 0;
             }
+
+            .translator-box{
+                background: #fff;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                padding: 16px;
+                max-width: 500px;
+                margin-bottom: 20px;
+            }
+            .translator-box h4{
+                margin: 0 0 10px 0;
+                color: #2c3e50;
+            }
+            .translator-box select,
+            .translator-box textarea{
+                width: 100%;
+                padding: 6px 8px;
+                margin-bottom: 8px;
+                font-family: inherit;
+                font-size: 13px;
+                box-sizing: border-box;
+            }
+            .translator-box button{
+                padding: 6px 14px;
+                margin-right: 8px;
+                margin-bottom: 8px;
+                cursor: pointer;
+            }
+            .translate-error{
+                color: #c0392b;
+                font-size: 12px;
+                margin-bottom: 8px;
+            }
+            .translate-actions{
+                display: flex;
+                gap: 8px;
+            }
         </style>
     </head>
     <body>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
         {% if user.is_authenticated %}
         <div class="sidebar">
-            <h2> Expense Tracker </h2>
-            <div class="user-info">Logged in as <strong>{{ user.username }}</strong></div>
-            <a href="{% url 'notifications_list' %}" class="{% if request.resolver_match.url_name == 'notifications_list' %}" active {% endif %}">
-                Notifications
+            <h2> {% trans "Expense Tracker" %} </h2>
+            <div class="user-info">{% trans "Logged in as" %} <strong>{{ user.username }}</strong></div>
+            <a href="{% url 'notifications_list' %}" class="{% if request.resolver_match.url_name == 'notifications_list' %} active {% endif %}">
+                {% trans "Notifications" %}
                 {% if unread_notifications_count > 0 %}
                     <span class="notif-badge">{{ unread_notifications_count }}</span>
                 {% endif %}
             </a>
-            <a href="{% url 'expense_list' %}" class="{% if request.resolver_match.url_name == 'expense_list' %} active {% endif %}">My Expenses</a>
-            <a href="{% url 'add_expense' %}" class="{% if request.resolver_match.url_name == 'add_expense' %} active {% endif %}">Add Expense</a>
-            <a href="{% url 'expense_calendar' %}" class="{% if request.resolver_match.url_name == 'expense_calendar' %} active {% endif %}">Expense Calendar</a>
-            <a href="{% url 'expense_summary' %}" class="{% if request.resolver_match.url_name == 'expense_summary' %} active {% endif %}">Summary</a>
+            <a href="{% url 'expense_list' %}" class="{% if request.resolver_match.url_name == 'expense_list' %} active {% endif %}">{% trans "All Expenses" %}</a>
+            <a href="{% url 'add_expense' %}" class="{% if request.resolver_match.url_name == 'add_expense' %} active {% endif %}">{% trans "Add Expense" %}</a>
+            <a href="{% url 'expense_calendar' %}" class="{% if request.resolver_match.url_name == 'expense_calendar' %} active {% endif %}">{% trans "Expense Calendar" %}</a>
+            <a href="{% url 'expense_summary' %}" class="{% if request.resolver_match.url_name == 'expense_summary' %} active {% endif %}">{% trans "Summary" %}</a>
+            <a href="{% url 'reminders_list' %}" class="{% if request.resolver_match.url_name == 'reminders_list' %} active {% endif %}">{% trans "Reminders" %}</a>
+            <a href="{% url 'profile' %}" class="{% if request.resolver_match.url_name == 'profile' %} active {% endif %}">{% trans "My Profile" %}</a>
+
+            <form action="{% url 'set_language' %}" method="post" class="lang-switch">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ request.path }}">
+                {% get_current_language as CURRENT_LANGUAGE %}
+                {% get_available_languages as AVAILABLE_LANGUAGES %}
+                <select name="language" onchange="this.form.submit()">
+                    {% for lang_code, lang_name in AVAILABLE_LANGUAGES %}
+                        <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>{{ lang_name }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+
             <div class="signout">
                 <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button type="submit">Sign Out</button>
+                    <button type="submit">{% trans "Sign Out" %}</button>
                 </form>
             </div>
         </div>
         {% endif %}
         <div class="main">
+            {% if messages %}
+                <ul class="messages" style="list-style:none; padding:0; margin:0 0 16px 0;">
+                    {% for message in messages %}
+                        <li style="padding:10px 14px; border-radius:6px; margin-bottom:8px; background:{% if message.tags == 'error' %}#fdecea{% else %}#e8f5e9{% endif %}; color:{% if message.tags == 'error' %}#611a15{% else %}#1b5e20{% endif %};">
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             {% block content %} {% endblock %}
         </div>
         {% block extra_js %}{% endblock %}

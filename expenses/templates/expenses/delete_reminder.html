@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Delete Reminder" %}{% endblock %}
+{% block content %}
+
+<h1>{% trans "Delete Reminder" %}</h1>
+
+<p>
+    {% blocktrans with name=reminder.person_name %}
+    Are you sure you want to delete the reminder for <strong>{{ name }}</strong>?
+    {% endblocktrans %}
+</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">{% trans "Yes, Delete" %}</button>
+</form>
+
+<a href="{% url 'reminders_list' %}">{% trans "Cancel" %}</a>
+
+{% endblock %}
